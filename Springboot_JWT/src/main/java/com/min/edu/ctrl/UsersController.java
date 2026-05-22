@@ -19,4 +19,10 @@ public class UsersController {
 		return service.register(user);
 	}
 	
+	//TODO 003 인증 제공자를 인증관리자를 통해서 처리하게 된다.
+	@PostMapping("/login")
+	public String login(@RequestBody Users user) {
+		System.out.println("로그인 요청 값 : " + user);
+		return "success";
+	}
 }

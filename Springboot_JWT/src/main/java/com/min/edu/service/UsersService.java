@@ -1,6 +1,8 @@
 package com.min.edu.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,12 @@ public class UsersService {
 	@Autowired
 	private UsersRepository repository;
 	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private JWTSercice jwtService;
+	
 	//정보를 입력할때 사용자의 password는 BcyptPasswordEncoder 입력
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
@@ -22,6 +30,20 @@ public class UsersService {
 		return outUser;
 	}
 	
+	//TODO 005 Controller에서 전달받은 JSON값을 JPA에 검색 로그인 처리
+	//authenticationManager를 통해서 요청받은 username과 passowrd를 DB에서 인증을 확인한다
+	public String verify(Users user) {
+		Authentication authentication = 
+				new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
+		
+		//인증을 확인
+		if(authentication.isAuthenticated()) {
+			//TODO 008 token으로 반환하는 코드로 변경
+			return jwtService.generateToken;
+		}
+		
+		return "fail";
+	}
 }
 
 

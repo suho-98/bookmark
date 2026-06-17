@@ -16,3 +16,6 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build jar
   run: cd bookmarker-api && ./mvnw package -DskipTests
+
+- name: Build the Docker image
+    run: docker build ./bookmarker-api --file ./bookmarker-api/Dockerfile --tag lucas0429/bookmarker-api:latest
